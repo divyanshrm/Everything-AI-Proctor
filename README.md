@@ -1,1 +1,1 @@
-# proctorproject
+# Everything-AI-Proctor
