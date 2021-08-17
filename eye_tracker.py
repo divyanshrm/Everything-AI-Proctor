@@ -12,6 +12,7 @@ import cv2
 
 class eye_tracker:
     def __init__(self):
+        self.counter=0
     # frames the eye must be below the threshold
         self.EYE_AR_THRESH = 0.35
         self.EYE_AR_CONSEC_FRAMES = 3
@@ -62,6 +63,18 @@ class eye_tracker:
         if np.array_equal(ori,frame):
             return frame,False
         return frame,True
+    def infer(self,frame):
+        frame, state = eye.get_eye(frame)
+        if not state:
+            self.counter += 1
+            if self.counter == 30:
+                self.counter = 0
+                return frame,False
+
+        elif self.counter>0:
+            self.counter = 0
+        return frame,True
+
 
 
 
