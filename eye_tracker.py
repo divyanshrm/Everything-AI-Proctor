@@ -61,19 +61,34 @@ class eye_tracker:
             cv2.drawContours(frame, [leftEyeHull], -1, (0, 255, 0), 1)
             cv2.drawContours(frame, [rightEyeHull], -1, (0, 255, 0), 1)
         if np.array_equal(ori,frame):
-            return frame,False
-        return frame,True
+            return False
+        return True
     def infer(self,frame):
-        frame, state = eye.get_eye(frame)
+        state= self.get_eye(frame)
         if not state:
             self.counter += 1
-            if self.counter == 30:
+            if self.counter == 1:
                 self.counter = 0
-                return frame,False
+                return False
 
         elif self.counter>0:
             self.counter = 0
-        return frame,True
+        return True
+"""n=eye_tracker()
+cap = cv2.VideoCapture(0)
+while True:
+    ret, frame = cap.read()
+    original_frame=frame.copy()
+    if ret == False:
+        break
+    frame,b=n.infer(frame)
+    if not b:
+        print("no eyes")
+    cv2.imshow('frame', frame)
+    if cv2.waitKey(1) == ord('q'):
+        break"""
+
+
 
 
 
