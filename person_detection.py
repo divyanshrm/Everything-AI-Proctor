@@ -333,15 +333,15 @@ class person_and_phone_detection:
             for i in range(nums[0]):
                 if int(classes[0][i] == 0):
                     count += 1
-                if int(classes[0][i] == 67):
+                if int(classes[0][i] == 67) or int(classes[0][i] == 65):
                     print('Mobile Phone detected')
             if count == 0:
                 print('No person detected')
             elif count > 1:
                 print('More than one person detected')
-            if cv2.waitKey(1):
+            cv2.imshow("image",image)
+            if cv2.waitKey(50) == ord('q'):
                 break
-
 
         cap.release()
         cv2.destroyAllWindows()
