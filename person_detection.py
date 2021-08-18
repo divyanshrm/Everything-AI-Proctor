@@ -311,11 +311,12 @@ class person_and_phone_detection:
                          name='yolo_nms')((boxes_0[:3], boxes_1[:3], boxes_2[:3]))
 
         return Model(inputs, outputs, name='yolov3')
+    def __init__(self):
+        self.yolo=self.YoloV3()
+        self.load_darknet_weights(self.yolo, 'models/yolov3.weights')
 
     def infer(self, image):
-        yolo = self.YoloV3()
-        self.load_darknet_weights(yolo, 'models/yolov3.weights')
-        cap = cv2.VideoCapture(0)
+        yolo=self.yolo
         img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         img = cv2.resize(img, (320, 320))
         img = img.astype(np.float32)
