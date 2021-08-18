@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 
 from tensorflow.keras import Model
-from tensorflow.keras.layers import(
+from tensorflow.keras.layers import (
     Add,
     Concatenate,
     Conv2D,
@@ -312,39 +312,28 @@ class person_and_phone_detection:
 
         return Model(inputs, outputs, name='yolov3')
 
-    def detect(self):
-
+    def infer(self, image):
         yolo = self.YoloV3()
         self.load_darknet_weights(yolo, 'models/yolov3.weights')
         cap = cv2.VideoCapture(0)
+        img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        img = cv2.resize(img, (320, 320))
+        img = img.astype(np.float32)
+        img = np.expand_dims(img, 0)
+        img = img / 255
+        class_names = [c.strip() for c in open("models/classes.TXT").readlines()]
+        boxes, scores, classes, nums = yolo(img)
+        count = 0
+        for i in range(nums[0]):
+            if int(classes[0][i] == 0):
+                count += 1
+            if int(classes[0][i] == 67) or int(classes[0][i] == 65):
+                return 0
+                # print('Mobile Phone detected')
+        if count == 0:
+            return 1
+            # print('No person detected')
+        elif count > 1:
+            return 2
+            # print('More than one person detected')
 
-        while (True):
-            ret, image = cap.read()
-            if ret == False:
-                break
-            img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            img = cv2.resize(img, (320, 320))
-            img = img.astype(np.float32)
-            img = np.expand_dims(img, 0)
-            img = img / 255
-            class_names = [c.strip() for c in open("models/classes.TXT").readlines()]
-            boxes, scores, classes, nums = yolo(img)
-            count = 0
-            for i in range(nums[0]):
-                if int(classes[0][i] == 0):
-                    count += 1
-                if int(classes[0][i] == 67) or int(classes[0][i] == 65):
-                    print('Mobile Phone detected')
-            if count == 0:
-                print('No person detected')
-            elif count > 1:
-                print('More than one person detected')
-
-            cv2.imshow("image",image)
-            if cv2.waitKey(50) == ord('q'):
-                break
-
-
-
-P = person_and_phone_detection()
-P.detect()
