@@ -316,7 +316,7 @@ class person_and_phone_detection:
         self.load_darknet_weights(self.yolo, 'models/yolov3.weights')
 
     def infer(self, image):
-        yolo=self.yolo
+        yolo = self.yolo
         img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         img = cv2.resize(img, (320, 320))
         img = img.astype(np.float32)
@@ -325,16 +325,14 @@ class person_and_phone_detection:
         class_names = [c.strip() for c in open("models/classes.TXT").readlines()]
         boxes, scores, classes, nums = yolo(img)
         count = 0
+        ans = []
         for i in range(nums[0]):
             if int(classes[0][i] == 0):
                 count += 1
             if int(classes[0][i] == 67) or int(classes[0][i] == 65):
-                return 0
-                # print('Mobile Phone detected')
+                ans.append(0)
         if count == 0:
-            return 1
-            # print('No person detected')
+            ans.append(1)
         elif count > 1:
-            return 2
-            # print('More than one person detected')
-
+            ans.append(2)
+        return ans

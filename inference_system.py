@@ -12,11 +12,11 @@ while True:
     if ret == False:
         break
     flag = PersonAndPhone.infer(frame)
-    if flag == 0:
+    if 0 in flag:
         print('Mobile Phone detected')
-    elif flag == 1:
+    if 1 in flag:
         print('No person detected')
-    elif flag == 2:
+    if 2 in flag:
         print('More than one person detected')
     cv2.imshow('frame', frame)
     if cv2.waitKey(1) == ord('q'):
