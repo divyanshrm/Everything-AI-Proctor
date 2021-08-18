@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 
 from tensorflow.keras import Model
-from tensorflow.keras.layers import (
+from tensorflow.keras.layers import(
     Add,
     Concatenate,
     Conv2D,
@@ -339,12 +339,11 @@ class person_and_phone_detection:
                 print('No person detected')
             elif count > 1:
                 print('More than one person detected')
+
             cv2.imshow("image",image)
             if cv2.waitKey(50) == ord('q'):
                 break
 
-        cap.release()
-        cv2.destroyAllWindows()
 
 
 P = person_and_phone_detection()
