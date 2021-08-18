@@ -22,7 +22,6 @@ from tensorflow.keras.layers import (
     BatchNormalization
 )
 from tensorflow.keras.regularizers import l2
-import wget
 
 def load_darknet_weights(model, weights_file):
     '''
