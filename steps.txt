@@ -4,6 +4,7 @@ Download yolo3.weights from 'Releases' in Github Repo
 Add yolo3.weights to Everything-AI-Proctor/models/
 cd Everything-AI-Proctor
 conda create -n env python=3.5
+conda activate env
 pip install -r requirements.txt
 conda install -c conda-forge dlib
 python inference_system.py
